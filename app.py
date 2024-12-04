@@ -87,7 +87,11 @@ class MemoryGame:
                 self.running = False
 
         # Sau khi trò chơi kết thúc, mở giaodien_end.py
-        subprocess.run([sys.executable, 'giaodien_end.py'])
+        pygame.quit()         # Đóng Pygame
+        subprocess.run([sys.executable, 'giaodien_end.py']) 
+        sys.exit()            # Thoát hoàn toàn chương trình Python
+        subprocess.run([sys.executable, 'giaodien_end.py'])  # Mở lại .py
+
 
 
 if __name__ == "__main__":
