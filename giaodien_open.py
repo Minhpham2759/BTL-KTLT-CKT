@@ -13,7 +13,7 @@ def start_game():
     play_button.pack_forget()
     # Hiển thị một thông báo bắt đầu trò chơi
     messagebox.showinfo("Trò chơi bắt đầu", "Chúc bạn chơi vui vẻ!")
-
+#HIHI
 
 ctypes.windll.shcore.SetProcessDpiAwareness(1)  # Đảm bảo tỷ lệ DPI chính xác
 
