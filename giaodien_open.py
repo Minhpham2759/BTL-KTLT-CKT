@@ -102,7 +102,7 @@ play_image3 = play_image3.resize((30*4, 30*4), Image.Resampling.LANCZOS)  # Kíc
 play_tk3 = ImageTk.PhotoImage(play_image3)
 
 # Thêm nút setting vào góc màn hình
-play_button3 = tk.Button(root, image=play_tk3, bg="#ffe6e6", bd=0, highlightthickness=0, relief="flat", activebackground="#ffe6e6", command=lambda: open_settings(root))
+play_button3 = tk.Button(root, image=play_tk3, bg="#ffe6e6", bd=0, highlightthickness=0, relief="flat", activebackground="#ffe6e6", command=root.destroy)
 play_button3.place(relx=0.96, rely=0.065, anchor="center")  # Đặt ở góc màn hình
 # Chạy vòng lặp chính của game
 root.mainloop()
