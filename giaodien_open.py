@@ -1,19 +1,18 @@
 import tkinter as tk
 from tkinter import Button
 from PIL import Image, ImageTk
-from tkinter import messagebox
+import subprocess
 import ctypes
 
 from nhac import play_music,stop_music
 from giaodien_setting import open_settings
 
 # Hàm để bắt đầu trò chơi khi nhấn nút "Play"
-def start_game():
-    # Ẩn nút Play và thay đổi trạng thái giao diện
-    play_button.pack_forget()
-    # Hiển thị một thông báo bắt đầu trò chơi
-    messagebox.showinfo("Trò chơi bắt đầu", "Chúc bạn chơi vui vẻ!")
-#HIHI
+def start_game(): #Tắt chương trình hiện tại và chạy file app.py.
+    play_music('music\sound.mp3', loop=False)  # Dừng nhạc trước khi tắt
+    root.destroy()  # Đóng cửa sổ hiện tại
+    subprocess.Popen(['python', 'app.py'], shell=True)  # Chạy file app.py
+
 
 ctypes.windll.shcore.SetProcessDpiAwareness(1)  # Đảm bảo tỷ lệ DPI chính xác
 
