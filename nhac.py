@@ -9,9 +9,6 @@ def play_music(file_path, loop=True):
     else:
         pygame.mixer.music.play()  # Phát 1 lần
 
-def stop_music():
-    """
-    Hàm dừng nhạc nền.
-    """
+def stop_music():   #Hàm dừng nhạc nền.
     pygame.mixer.music.stop()
 
