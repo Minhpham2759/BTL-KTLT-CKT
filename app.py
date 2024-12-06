@@ -1,4 +1,3 @@
-# app.py
 import pygame
 import game_config as gc
 from pygame import display, event
@@ -7,7 +6,7 @@ from animal import Animal
 import ctypes
 import subprocess
 import sys
-from giaodien_gamesetting import SettingsButton  # Import the new SettingsButton class
+from giaodien_gamesetting import SettingsButton
 
 ctypes.windll.shcore.SetProcessDpiAwareness(1)
 BACKGROUND_IMAGE_PATH = 'source\\play_background.png'
@@ -15,6 +14,7 @@ SETTINGS_ICON_PATH = 'source\\setting_icon.png'  # Đường dẫn đến ảnh 
 RESUME_ICON_PATH = 'source\\resume_icon.png'  # Đường dẫn đến ảnh resume
 RESTART_ICON_PATH = 'source\\restart_icon.jpg'  # Đường dẫn đến ảnh restart
 HOME_ICON_PATH = 'source\\home_icon.png'  # Đường dẫn đến ảnh home
+SOUND_ICON_PATH = 'source\\sound_icon.png'  # Đường dẫn đến ảnh âm thanh
 
 class MemoryGame:
     def __init__(self):
@@ -27,8 +27,9 @@ class MemoryGame:
         self.tiles = [Animal(i) for i in range(0, gc.NUM_TILES_TOTAL)]
         self.current_images_displayed = []
 
-        # Tạo nút Settings
-        self.settings_button = SettingsButton(self.screen, SETTINGS_ICON_PATH, (gc.SCREEN_SIZE - 20, 20))
+        # Tạo nút Settings và nút Âm Thanh
+        self.settings_button = SettingsButton(self.screen, SETTINGS_ICON_PATH, (gc.SCREEN_SIZE - 70, 20))
+        self.sound_button = SettingsButton(self.screen, SOUND_ICON_PATH, (gc.SCREEN_SIZE - 140, 20))
 
         # Biến trạng thái để quản lý màn hình pause
         self.game_paused = False
@@ -42,6 +43,12 @@ class MemoryGame:
 
         self.home_icon = pygame.image.load(HOME_ICON_PATH)
         self.home_icon = pygame.transform.scale(self.home_icon, (200, 50))
+
+        # Biến trạng thái âm thanh
+        self.sound_on = True
+        pygame.mixer.init()
+        self.background_music = pygame.mixer.Sound("music\\lawnbgm(1).mp3") 
+        self.background_music.play(loops=-1, maxtime=0, fade_ms=0)  # Phát nhạc nền nếu bật âm thanh
 
     def find_index_from_xy(self, x, y):
         adjusted_x = x - gc.SCREEN_SIZE // 2 + (gc.NUM_TILES_SIDE * gc.IMAGE_SIZE) // 2
@@ -84,6 +91,15 @@ class MemoryGame:
         subprocess.run([sys.executable, sys.argv[0]])
         sys.exit()
 
+    def toggle_sound(self):
+        """Chuyển trạng thái âm thanh (bật/tắt)."""
+        if self.sound_on:
+            self.sound_on = False
+            self.background_music.stop()  # Dừng nhạc nền khi tắt âm thanh
+        else:
+            self.sound_on = True
+            self.background_music.play(loops=-1, maxtime=0, fade_ms=0)  # Tiếp tục phát nhạc nền khi bật âm thanh
+
     def run_game(self):
         while self.running:
             current_events = event.get()
@@ -99,6 +115,10 @@ class MemoryGame:
                     # Kiểm tra nhấn nút Settings
                     if self.settings_button.is_clicked((mouse_x, mouse_y)):
                         self.open_settings()
+
+                    # Kiểm tra nhấn nút âm thanh
+                    if self.sound_button.is_clicked((mouse_x, mouse_y)):
+                        self.toggle_sound()
 
                     if self.game_paused:
                         resume_button = pygame.Rect((gc.SCREEN_SIZE // 2 - 100, gc.SCREEN_HEIGHT // 2 - 100), (200, 50))
@@ -143,8 +163,9 @@ class MemoryGame:
                     else:
                         total_skipped += 1
 
-                # Vẽ nút Settings
+                # Vẽ nút Settings và nút Âm Thanh
                 self.settings_button.draw()
+                self.sound_button.draw()
 
             else:
                 # Khi game bị tạm dừng, vẽ màn hình pause
