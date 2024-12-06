@@ -4,7 +4,7 @@ import ctypes
 
 
 def set_dpi_awareness():
-    """Set the DPI awareness to ensure correct scaling on high-DPI displays."""
+
     ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
 
@@ -58,7 +58,7 @@ def open_settings(root):
     create_button(setting_window, restart_image, lambda: print("Restarting..."), width // 2, int(height * 0.45))
 
     # Create quit button
-    quit_image = load_image("source\quite_icon.png", size=(60 * 5, 30 * 5))
+    quit_image = load_image("source\quit_icon.png", size=(60 * 5, 30 * 5))
     create_button(setting_window, quit_image, setting_window.quit, width // 2, int(height * 0.8))
 
     # Prevent garbage collection of images
