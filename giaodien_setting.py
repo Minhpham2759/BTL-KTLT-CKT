@@ -8,16 +8,14 @@ def set_dpi_awareness():
     ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
 
-def load_image(image_path, size=None):
-    """Load and resize an image."""
+def load_image(image_path, size=None): #Load and resize an image.
     image = Image.open(image_path)
     if size:
         image = image.resize(size, Image.Resampling.LANCZOS)
     return ImageTk.PhotoImage(image)
 
 
-def create_button(window, image, command, x, y, width=None, height=None):
-    """Create a button with an image, placed at the specified coordinates."""
+def create_button(window, image, command, x, y, width=None, height=None): #Create a button with an image, placed at the specified coordinates.
     if width and height:
         image = image.resize((width, height), Image.Resampling.LANCZOS)
     button = tk.Button(window, image=image, bg="#ffe6e6", bd=0, highlightthickness=0, relief="flat", activebackground="#ffe6e6", command=command)
